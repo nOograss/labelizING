@@ -1,0 +1,3 @@
+let jsonResult = {
+    'daa': 'ok'
+};

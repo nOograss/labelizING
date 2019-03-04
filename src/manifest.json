@@ -1,0 +1,18 @@
+{
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "labelize",
+      "identifier": "labelizing.labelize-identifier",
+      "script": "./labelize.js"
+    }
+  ],
+  "menu": {
+    "title": "labelizING",
+    "items": [
+      "labelizing.labelize-identifier"
+    ]
+  }
+}
