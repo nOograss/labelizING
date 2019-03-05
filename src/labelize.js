@@ -6,7 +6,7 @@ import helpers from './helpers.js'
 import fileHelper from './fileHelper.js'
 
 const options = {
-  identifier: 'unique.id',
+  identifier: 'mainWindow',
   webPreferences: {
     javascript: true,
     devTools: true
@@ -14,7 +14,17 @@ const options = {
   width: 800, 
   height: 860 
 }
+const optionsReadMe = {
+    identifier: 'readMeWindow',
+    webPreferences: {
+      javascript: true,
+      devTools: true
+    },    
+    width: 800, 
+    height: 800 
+  }
 const browserWindow = new BrowserWindow(options);
+const readMeWindow = new BrowserWindow(optionsReadMe);
 const workspace = NSWorkspace.alloc().init();
 
 helpers.init(browserWindow);
@@ -32,6 +42,7 @@ var duplicates = [];
 
 export default function() {
 
+  readMeWindow.show();
   browserWindow.loadURL(require('./ui.html'));
   browserWindow.focus();
   browserWindow.show();
@@ -80,16 +91,31 @@ export default function() {
             let value = json[k]+"";
          helpers.sendMessage('insertNewLabel', key+";"+value);
         } catch(e) {
-            helpers.sendMessage('log', e);
+            helpers.sendMessage('log', 'error during insert');
         }
     }
-    helpers.sendMessage('displayLabels', "1");
-    helpers.sendMessage("notification","green;import completed!");
+    try {
+        helpers.sendMessage('displayLabels', "1");
+    } catch (e) {
+        helpers.sendMessage('log', 'error during display');
+    }
+    try {
+        helpers.sendMessage("notification","green;import completed!");
+    } catch (e) {
+        helpers.sendMessage('log', 'error during notif');
+    }
+    return;
   });
 
   browserWindow.webContents.on('location', () => {
     selectFolder();
   });
+
+  browserWindow.webContents.on('openReadMe', () => {
+    readMeWindow.loadURL(require('./readMe.html'));
+    readMeWindow.focus();
+    readMeWindow.show();
+  })
 }
 
 function start(index) {
@@ -142,25 +168,29 @@ function importFile() {
     let jsonRead = {};
     let filename = "test";
 
-    if(isJson) {
-        filename = path.split('.json')[0].split('/');
-        filename = filename[filename.length-1];
-        for (var k in jsonObject) {
-            jsonRead[k] = jsonObject[k+""] + "";
-        }
-    } else {
-        filename = path.split('.csv')[0].split('/');
-        filename = filename[filename.length-1];
-        jsonObject = jsonObject.split('\n');
-        let kv = '';
-        for (var k in jsonObject) {
-            let key = k+""
-            if(k !== '0' ) {
-                kv = jsonObject[k].split(';');
-                if(kv[0]+"" !== "");
-                jsonRead[kv[0]+""] = kv[1] + "";
+    try {
+        if(isJson) {
+            filename = path.split('.json')[0].split('/');
+            filename = filename[filename.length-1];
+            for (var k in jsonObject) {
+                jsonRead[k] = jsonObject[k+""] + "";
+            }
+        } else {
+            filename = path.split('.csv')[0].split('/');
+            filename = filename[filename.length-1];
+            jsonObject = jsonObject.split('\n');
+            let kv = '';
+            for (var k in jsonObject) {
+                let key = k+""
+                if(k !== '0' ) {
+                    kv = jsonObject[k].split(';');
+                    if(kv[0]+"" !== "");
+                    jsonRead[kv[0]+""] = kv[1] + "";
+                }
             }
         }
+    } catch (e) {
+        helpers.sendMessage('notification', 'error during import of ' + path);
     }
     helpers.sendMessage('setFileName', filename);
     return jsonRead;

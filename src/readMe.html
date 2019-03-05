@@ -1,0 +1,233 @@
+<html>
+    <head>
+        <title>Read Me</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <style>
+                body {
+                    padding: 0;
+                    margin: 0;
+                    font-family: 'Open Sans', sans-serif;
+                    background-color: #fbf3e3;
+                }
+                .header{
+                    background-color: orange;
+                    color: white;
+                    text-align: left;
+                    padding: 1em;
+            
+                }
+                .help {
+                    max-width: 800px;
+                }
+                .highlight {
+                    background-color: rgba(0, 0, 255, 0.2);
+                    padding: 4px;
+                    border-radius: 3px;
+                }
+            
+                .container {
+                    padding: 1em;
+                }
+                .card {
+                    padding: 1em;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                    border-radius: 3px;
+                    background-color: #fff;
+                    margin-bottom: 1em;
+                }
+                .field {
+                    margin-bottom: 1em;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .field input {
+                    max-width: 200px;
+                }
+                .labels--container {
+                    display: flex;
+                    flex-direction: column;
+                }
+                .label--line {
+                    display: flex;
+                    width: 100%;
+                }
+                .label--line input {
+                    width: 100%;
+                }
+                .label--key {
+                    border: 1px solid grey;
+                    padding: 8px;
+                    width: 40%;
+                }
+                .label--value {
+                    border: 1px solid grey;
+                    border-left: 0;
+                    padding: 8px;
+                    width: 60%;
+                }
+                input {
+                    height: 40px;
+                    font-size: 16px;
+                    color: #444444;
+                    border-radius: 2px;
+                    border: 1px solid darkgrey;
+                    padding: 4px;
+                }
+            
+                textarea {
+                    width: 100%;
+                    height: 80px;
+                    font-size: 16px;
+                }
+            
+                .btn {
+                    padding: 8px;
+                    border-radius: 4px;
+                    border: none;
+                    background-color: #2196f3;
+                    color: #fff;
+                }
+            
+                .btn--green {
+                    background: green;
+                }
+
+                .btn--blue {
+                    background-color: blue;
+                }
+
+                .btn--translate {
+                    background: #2196f3;
+                }
+
+                
+                .loader {    
+                    margin: auto;
+                    position: absolute;
+                    top: 108px;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .dot {
+                    position: relative;
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: rgba(128,128,128,0);
+                    border-radius: 50%;
+                    margin: 1em;
+                    animation: scale 1.8s infinite;
+                }
+                #dot1 {
+                    animation-delay: 0s;
+                    background-color: #008744;
+                    opacity: 0;
+                }
+                #dot2{
+                    animation-delay: 0.4s;
+                    background-color: #d62d20;
+                    opacity:0;
+                }
+                #dot3{
+                    animation-delay: 0.8s;
+                    background-color: #ffa700;
+                    opacity:0;
+                }
+
+                @keyframes scale {
+                    0% {
+                        opacity:0.1;
+                    }
+                    50% {
+                        opacity:1;
+                    }
+                    100% {
+                        opacity:0.1;
+                    }
+                }
+                .hide {
+                    display: none;
+                }
+                .nav {
+                    display: flex;
+                    justify-content: space-between;
+                }
+                .notif.green{
+                    border: #8bc34a 1px solid;
+                    background-color: #dcedc8;
+                    color: #000;
+                }
+                .notif.red{
+                    border: #f44336 1px solid;
+                    background-color: #ffebee;
+                    color: #000;
+                }
+                .notif {
+                    top: 0px;
+                    left: 0;
+                    right: 0;
+                    height: 0px;
+                    position: absolute;
+                    opacity: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1em;
+                }
+                .notif.active {
+                    transition: all .5s ease-in-out;
+                    height: 80px;
+                    position: absolute;
+                    opacity: 1;
+                }
+
+                #pagesRadio {
+                    display: flex;
+                    justify-content: space-evenly;
+                }
+
+                #pagesRadio label{
+                    display: flex;
+                    align-items: center;
+                }
+        </style>
+    </head>
+    <body>
+        <div id="0" class="card container">
+            <div class="header">
+                <h1>LabelING</h1>
+            </div>
+            <p>LabelING will extract the copy from a sketch file or an imported file(json, csv).
+            <p>It will create a key value row following these rules :</p>
+                <ul> 
+                <li>The key are using the name of the elements used in the sketch file.</li>
+                <li>Labels are retrieve first from the bottom artboard in the artboard-list.</li>
+                <li>Labels retrieved from Text element and Symbol only</li>
+                <li>The Key are created using this pattern: 
+                    <ul>
+                        <li>ArtBoardName__Symbol_fieldName</li>
+                        <li>ArtBoardName__Symbol</li>
+                        <li>ArtBoardName__fieldName (case of text)</li>
+                    </ul>
+                </li>
+                <li>some keys are shared such as: 
+                    <ul>
+                        <li>tab</li>
+                        <li>title</li>
+                        <li>ContinueButton</li>
+                        <li>NextButton</li>
+                        <li>BackButton</li>
+                        <li>CancelButton</li>
+                        <li>DoneButton</li>
+                    </ul>
+                <li>Element name containing [x] will be skipped.</li>
+                <li>There may be some UTF-8 encoding errors, check your text for safety.</li>
+            </ul>
+        </div>
+    </body>
+</html>
