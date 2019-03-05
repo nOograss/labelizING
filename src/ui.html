@@ -393,8 +393,7 @@
                     return;
                 }
             }
-            
-           
+                 
             window.displayLabels = (target) => {
                 showLoader(true);
                 displayJson(jsonLabels);
@@ -411,6 +410,7 @@
                 fileImport(arg);
                 currentStep += 1;
             }
+            
             window.notification = function(arg) {
                 showNotification(arg);
             }   
@@ -438,6 +438,7 @@
                 $('.csvDL').on('click', () => interceptClickEvent("csv"));
 
                 $('#translate').on('click', () => {
+                    currentPageIndex = $('input:checked').attr('id').split('radio')[1];
                     if (!currentPageIndex) {                        
                         showNotification('red;Please select a page.')
                         return;

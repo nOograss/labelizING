@@ -24,7 +24,6 @@ const optionsReadMe = {
     height: 800 
   }
 const browserWindow = new BrowserWindow(options);
-const readMeWindow = new BrowserWindow(optionsReadMe);
 const workspace = NSWorkspace.alloc().init();
 
 helpers.init(browserWindow);
@@ -42,7 +41,7 @@ var duplicates = [];
 
 export default function() {
 
-  readMeWindow.show();
+   
   browserWindow.loadURL(require('./ui.html'));
   browserWindow.focus();
   browserWindow.show();
@@ -112,6 +111,7 @@ export default function() {
   });
 
   browserWindow.webContents.on('openReadMe', () => {
+    const readMeWindow = new BrowserWindow(optionsReadMe);
     readMeWindow.loadURL(require('./readMe.html'));
     readMeWindow.focus();
     readMeWindow.show();
