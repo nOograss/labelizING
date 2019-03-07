@@ -12,7 +12,8 @@ const options = {
     devTools: true
   },    
   width: 800, 
-  height: 860 
+  height: 860 ,
+  show: false
 }
 const optionsReadMe = {
     identifier: 'readMeWindow',
@@ -21,12 +22,12 @@ const optionsReadMe = {
       devTools: true
     },    
     width: 800, 
-    height: 800 
+    height: 800 ,
+    show: false
   }
-const browserWindow = new BrowserWindow(options);
-const workspace = NSWorkspace.alloc().init();
+var browserWindow;
+var workspace;
 
-helpers.init(browserWindow);
 
 var jsonModify = {};
 
@@ -41,13 +42,19 @@ var duplicates = [];
 
 export default function() {
 
-   
+ browserWindow =   new BrowserWindow(options);
   browserWindow.loadURL(require('./ui.html'));
+  browserWindow.once('ready-to-show', () => {
+        browserWindow.show();
   browserWindow.focus();
-  browserWindow.show();
+    })
+  workspace = NSWorkspace.alloc().init();
+helpers.init(browserWindow);
+
   browserWindow.webContents.on('extractLabel', (index) => {
-    sketch.UI.message(index);
+    helpers.sendMessage('notification', 'green;Sketch extraction started...');
     start(index);
+    helpers.sendMessage('notification', 'green;Sketch extraction ended...');
   });  
 
   browserWindow.webContents.on('downloadFile', param => {
@@ -113,18 +120,22 @@ export default function() {
   browserWindow.webContents.on('openReadMe', () => {
     const readMeWindow = new BrowserWindow(optionsReadMe);
     readMeWindow.loadURL(require('./readMe.html'));
+    
+    readMeWindow.once('ready-to-show', () => {
     readMeWindow.focus();
     readMeWindow.show();
-  })
+    });
+  });
 }
 
 function start(index) {
-    sketch.UI.message("It's alive 🙌");
-
     let jsonResult = {};
-
     const layers = context.document.pages()[index].layers();
+    try {
     parseArray(layers);  
+    } catch (e) {
+        helpers.sendMessage('log', 'error on parseArray');
+    }
     helpers.sendMessage("displayLabels","");
 }
 
@@ -235,34 +246,45 @@ function parseItem(item, count,currentPage, currentSymbol){
   let json = {};
   switch(item.type){
       case "Artboard": 
-        currentPage = helpers.format(item.name+"").split('-')[0].trim();
+        currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
         parseArray(item.sketchObject.layers(), null, currentPage, currentSymbol);
         break;
       case "SymbolInstance": 
-        currentSymbol = item.name;  
+        currentSymbol = item.name + "";
+        currentSymbol = currentSymbol.replace(/\n/g,' ').replace(/;/g,',').trim(); 
         parseArray(item.overrides, null, currentPage, currentSymbol);
         break;
       case "Text": 
+        try {
+            let value = item.sketchObject.stringValue()+"";
+            if (typeof item.value !== 'string' || item.value.replace(/\n/g, ' ').trim() === '') {
+                return;
+            }
+            value = value.replace(/\n/g, ' ');
 
-          let value = `${item.sketchObject.stringValue()}`.replace(/\n/g, ' ');
-          if (value.trim() === '') {
-              return;
-          }
-
-          helpers.sendMessage('insertNewLabel',currentPage + "__" + item.name + ";"+helpers.sanitize(value));
-          break;
+            helpers.sendMessage('insertNewLabel',currentPage + "__" + item.name + ";"+helpers.sanitize(value));
+        } catch(e) {
+            helpers.sendMessage('log', 'error while retrieving text for' + item.name);
+        }
+        break;
       case "Group":
         if(item.sketchObject.layers().length > 0)
             parseArray(item.sketchObject.layers(), null, currentPage, currentSymbol);
         break;
       case "Override":
       case "OverriddeValue":
-        if (item.value.replace(/\n/g, ' ').trim() === '') {
-            return;
-        }
-        const regex = new RegExp("[A-Z0-9]{8}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{12}");
-        if(!regex.test(item.value)) {
-            helpers.sendMessage('insertNewLabel',currentPage+"__"+helpers.getNameForItem(currentSymbol+"")+"_"+item.affectedLayer.name + ";"+helpers.sanitize(item.value));
+        try {
+            if (typeof item.value !== 'string' ) {
+                return;
+            }
+            var itemV = item.value + "";
+            itemV = itemV.replace(/\n/g, ' ').replace(/;/g, ',').replace(/\"/g,'\\"').trim();
+            const regex = new RegExp("[A-Z0-9]{8}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{12}");
+            if(!regex.test(itemV) && itemV !== '') {
+                helpers.sendMessage('insertNewLabel',currentPage+"__"+helpers.getNameForItem(currentSymbol+"")+"_"+item.affectedLayer.name + ";"+itemV);
+            }
+         } catch (e) {
+            helpers.sendMessage('log', 'error while retrieving text for '+ currentSymbol);
         }
         break;
       case "Layers": 
@@ -276,7 +298,7 @@ function translateItem(item, jsonT, currentPage, currentSymbol){
     }
     switch(item.type){
         case "Artboard": 
-            currentPage = helpers.format(item.name+"").split('-')[0].trim();
+            currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
             parseArray(item.sketchObject.layers(), jsonT, currentPage, currentSymbol);
             break;
         case "SymbolInstance": 

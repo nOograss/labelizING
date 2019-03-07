@@ -169,15 +169,18 @@
                 position: absolute;
                 opacity: 1;
             }
-
+        </style>
+        <style id="radio-button">
             #pagesRadio {
                 display: flex;
-                justify-content: space-evenly;
+                flex-wrap: wrap;
+                justify-content: flex-start;
             }
 
             #pagesRadio label{
                 display: flex;
                 align-items: center;
+                margin-right: 1em;
             }
         </style>
         <style id="btn-style">
@@ -187,6 +190,15 @@
                 border: none;
                 background-color: #2196f3;
                 color: #fff;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                font-size: 16px;
+            }
+
+            .btn--icon {
+                padding: 0 8px;
             }
 
             .btn--green {
@@ -203,6 +215,19 @@
             .btn--transparent {
                 background:none;
                 border: 0px;
+            }
+        </style>
+        <style id="icons">
+            .arrow {
+                font-size: 2em;
+            }
+            .arrow--left:after {
+                content: '\2190';
+                margin-right: 8px;
+            }
+            .arrow--right:after {
+                content: '\2192';
+                margin-left: 8px;
             }
         </style>
     </head>
@@ -229,11 +254,11 @@
         <div id="1" class="card hide">
             <div class="header">
                 <h1>Labesl Overview</h1>
-                <div class="nav">
-                    <button id="SketchSelect" data-target="0" class="btn btn--transparent stepper"><i class="fas fa-arrow-left"></i>Select another file or another page</button>
-                    <button id="Download" data-target="2" class="btn btn--transparent stepper">Go To Download <i class="fas fa-arrow-right"></i></button>
-                </div>
             </div>
+            <div class="nav">
+                    <button id="SketchSelect" data-target="0" class="btn btn--icon stepper"><i class="arrow arrow--left"></i><span>Select another file or another page</span></button>
+                    <button id="Download" data-target="2" class="btn btn--icon stepper"><span>Go To Download</span><i class="arrow arrow--right"></i></button>
+                </div>
             <blockquote>you can modify the values of the labels in the table below</blockquote>
             <h3> Apply labels to the following page:</h3>
             <div id="pagesRadio"></div>
@@ -251,9 +276,9 @@
         <div id="2" class="card hide">
             <div class="header">
                 <h1>Labesl Overview</h1>
-                <div class="nav">
-                    <button id="labelTable" data-target="1" class="btn stepper">Back to Labels</button>
-                </div>
+            </div>
+            <div class="nav">
+                <button id="labelTable" data-target="1" class="btn btn--icon stepper"><i class="arrow arrow--left"></i>Back to Labels</button>
             </div>
             <blockquote>You can download the labels under a JSON or CSV format</blockquote>
             <label> Location:
@@ -295,10 +320,12 @@
                     $('.loader').addClass('hide');
                     $('#'+currentStep).removeClass('hide');
                 }
+                return;
             }
 
             window.log = function (msg) {
-                $('#feedback').append(msg + '<br>');
+                $('#feedback').append('log: '+msg + '<br>');
+                return;
             }
             
             window.initPages = function(pages) {
@@ -322,9 +349,10 @@
                 showLoader(false);
                 $('.stepper').on('click', (e) => {
                     showLoader(true);
-                    currentStep = $('#'+e.target.id).data('target');
+                    currentStep = $('#'+e.currentTarget.id).data('target');
                     showLoader(false);
                 });
+                return;
             }
 
             //Key format: Page__Symbol_fieldName
@@ -399,25 +427,30 @@
                 displayJson(jsonLabels);
                 currentStep = target || currentStep;
                 showLoader(false);
+                return;
             }
             
             window.setFileName = (name) => {
                 $('#filename').val(name);
+                return;
             }
 
             window.fileToImport = function(arg) {
                 jsonLabels = {};
                 fileImport(arg);
                 currentStep += 1;
+                return;
             }
             
             window.notification = function(arg) {
                 showNotification(arg);
+                return;
             }   
             
             window.targetLocation = (arg) => {
                 fileLocation = arg.split('file://')[1];
                 $('#pathDl').text(fileLocation);
+                return;
             }
             /**** END - SKETCH ACTION BLOCK ****/
 
