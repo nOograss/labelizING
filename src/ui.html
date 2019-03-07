@@ -171,13 +171,14 @@
             }
         </style>
         <style id="radio-button">
-            #pagesRadio {
+            .radioButtons{
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: flex-start;
             }
 
-            #pagesRadio label{
+            #pagesRadio label,
+            .radio{
                 display: flex;
                 align-items: center;
                 margin-right: 1em;
@@ -229,6 +230,18 @@
                 content: '\2192';
                 margin-left: 8px;
             }
+            .rocket,
+            .pen {
+                font-size: 2em;
+                margin-right: 8px;
+            }
+            .rocket:after {
+                content: '\1F680';
+            }
+            .pen:after {
+                content: '\1F58A';
+            }
+
         </style>
     </head>
     <body>
@@ -261,8 +274,8 @@
                 </div>
             <blockquote>you can modify the values of the labels in the table below</blockquote>
             <h3> Apply labels to the following page:</h3>
-            <div id="pagesRadio"></div>
-            <button id="translate" class="btn btn--translate">Click to translate the page</button>
+            <div id="pagesRadio" class="radioButtons"></div>
+            <button id="translate" class="btn btn--translate"><i class="pen"></i>Click to translate the page</button>
             <div class="labels-container">
                 <div class="label--line">
                     <div class="label--key"><b>KEY</b></div>
@@ -288,12 +301,19 @@
             <label> Filename:
             <input type=text placeholder="Filename after export" id="filename" value="Labels">
             </label><br>
-            <label> Language:
+            <label>File Type: 
+                <div class="radioButtons">
+                    <span class="radio"><input type='radio' name='fileType' value="json" checked>JSON</span>
+                    <span class="radio"><input type='radio' name='fileType' value="csv">CSV</span>
+                </div>
+            </label><br>
+            <label id="languageContainer" class="hide"> Language:
                 <input type=text placeholder="Language of the export" id="language" value="EN">
             </label><br>
             <p>Download as: 
-                <button target="_blank" href="www.google.com" id="redl" class="btn btn--green jsonDL" title="Developer readable file" >Download JSON File</button> 
+                <!--<button target="_blank" href="www.google.com" id="redl" class="btn btn--green jsonDL" title="Developer readable file" >Download JSON File</button> 
                 <button id="redl-csv" class="btn btn--blue csvDL" title="Copywriter readable file" >Download CVS File</button>
+                --><button id="save" class="btn btn--icon" ><i class="rocket"></i> Save file</button>
             </p>     
         </div>
 
@@ -310,6 +330,7 @@
             var duplicates = [];
             let currentStep = 0;
             let fileLocation = '';
+            let fileType = 'json';
 
             /**** SKETCH ACTION BLOCK ****/
             function showLoader(display) {
@@ -463,6 +484,19 @@
                 window.postMessage('initializePages', '')
 
                 $('#import').on('click',  () => window.postMessage('importFile'));
+
+                $('input[name="fileType"]').on('click', (e) => {
+                    fileType = e.currentTarget.value;
+                    if(fileType=== "json") {
+                        $('#languageContainer').addClass('hide');
+                    } else {
+                        $('#languageContainer').removeClass('hide');
+                    }
+                });
+
+                $('#save').on('click', (e) => {
+                    interceptClickEvent(fileType);
+                });
 
                 $('.jsonDL').on('click', (e) => {
                     interceptClickEvent("json");

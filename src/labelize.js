@@ -11,7 +11,7 @@ const options = {
     javascript: true,
     devTools: true
   },    
-  width: 800, 
+  width: 1024, 
   height: 860 ,
   show: false
 }
