@@ -89,6 +89,7 @@ helpers.init(browserWindow);
   browserWindow.webContents.on('importFile', () => {
     var json = importFile();
     if(json === 0) {
+        helpers.sendMessage('notifications', 'red; error while importing the file');
         return;
     }
     for (var k in json){

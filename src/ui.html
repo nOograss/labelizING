@@ -122,6 +122,12 @@
                 justify-content: space-evenly;
                 font-size: 16px;
             }
+            .btn:hover {
+                background-color: #6ec6ff;
+            }
+            .btn:active {
+                background-color: #0069c0;
+            }
 
             .btn--icon {
                 padding: 0 8px;
@@ -172,7 +178,7 @@
                 padding: 0;
                 margin: 0;
                 font-family: 'Open Sans', sans-serif;
-                background-color: #fbf3e3;
+                background-color: #eceff1;
             }
             .header{
                 background-color: orange;
@@ -260,69 +266,72 @@
             <div id="dot3" class="dot"></div>
         </div>
         <div id="feedback"></div>
-        <div id="0" class="card container">
+        <div id="0" class="container">
             <div class="header">
                 <h1>Labelizer</h1>
             </div>
-            <h3>Welcome:</h3>
-            <p>First <a href="" id="read-me">read this</a></p>
-            <i>Select a file or click on one of the buttons below to retrieve the labels and values from it.</i>
-            <h3>Import a file (json or csv):</h3>
-            <button id="import">Import File</button>
-            <h3>Export labels from one of the following artboards:</h3>
-            <div class="btns"></div>      
+            <div class="card">
+                <h3>Welcome:</h3>
+                <p>First <a href="" id="read-me">read this</a></p>
+            </div>
+            <div class="card">
+                <i>Select a file or click on one of the buttons below to retrieve the labels and values from it.</i>
+                <h3>Import a file (json or csv):</h3>
+                <button id="import" class="btn">Import File</button>
+                <h3>Export labels from one of the following artboards:</h3>
+                <div class="btns"></div>    
+            </div>  
         </div>
-        <div id="1" class="card hide">
+        <div id="1" class="container hide">
             <div class="header">
                 <h1>Copy Overview</h1>
             </div>
-            <div class="nav">
-                    <button id="SketchSelect" data-target="0" class="btn btn--icon stepper"><i class="arrow arrow--left"></i><span>Select another file or another page</span></button>
-                    <button id="Download" data-target="2" class="btn btn--icon stepper"><span>Go To Download</span><i class="arrow arrow--right"></i></button>
-                </div>
-            <blockquote>you can modify the values of the labels in the table below</blockquote>
-            <h3> Apply labels to the following page:</h3>
-            <div id="pagesRadio" class="radioButtons"></div>
-            <button id="translate" class="btn btn--translate"><i class="pen"></i>Click to translate the page</button>
-            <div class="labels-container">
-                <div class="label--line">
-                    <div class="label--key"><b>KEY</b></div>
-                    <div class="label--value"><b>VALUE</b></div>
+            <div class="nav card">
+                <button id="SketchSelect" data-target="0" class="btn btn--icon stepper"><i class="arrow arrow--left"></i><span>Select another file or another page</span></button>
+                <button id="Download" data-target="2" class="btn btn--icon stepper"><span>Go To Download</span><i class="arrow arrow--right"></i></button>
+            </div>
+            <div class="card">
+                <blockquote>you can modify the values of the labels in the table below</blockquote>
+                <h3> Apply labels to the following page:</h3>
+                <div id="pagesRadio" class="radioButtons"></div>
+                <button id="translate" class="btn btn--translate"><i class="pen"></i>Click to translate the page</button>
+                <div class="labels-container">
+                    <div class="label--line">
+                        <div class="label--key"><b>KEY</b></div>
+                        <div class="label--value"><b>VALUE</b></div>
+                    </div>
                 </div>
             </div>
-            <!--<p>You can modify the labels then redownload it: <button id="redl" class="btn jsonDL" title="Developer readable file" >Download JSON File</button> <button id="redl-csv" class="btn btn-csv csvDL" title="Copywriter readable file" >Download CVS File</button></p>
-            <a id="link"  herf="www.google.com">download</a>-->
         </div>
-
-        <div id="2" class="card hide">
+        <div id="2" class="container hide">
             <div class="header">
                 <h1>Download</h1>
             </div>
-            <div class="nav">
+            <div class="nav card">
                 <button id="labelTable" data-target="1" class="btn btn--icon stepper"><i class="arrow arrow--left"></i>Back to Labels</button>
             </div>
-            <blockquote>You can download the labels under a JSON or CSV format</blockquote>
-            <label> Location:
-                <button id="location">Select target location</button>
-                <i id="pathDl"></i>
-            </label><br>
-            <label> Filename:
-            <input type=text placeholder="Filename after export" id="filename" value="Labels">
-            </label><br>
-            <label>File Type: 
-                <div class="radioButtons">
-                    <span class="radio"><input type='radio' name='fileType' value="json" checked>JSON</span>
-                    <span class="radio"><input type='radio' name='fileType' value="csv">CSV</span>
-                </div>
-            </label><br>
-            <label id="languageContainer" class="hide"> Language:
-                <input type=text placeholder="Language of the export" id="language" value="EN">
-            </label><br>
-            <p>Download as: 
-                <!--<button target="_blank" href="www.google.com" id="redl" class="btn btn--green jsonDL" title="Developer readable file" >Download JSON File</button> 
-                <button id="redl-csv" class="btn btn--blue csvDL" title="Copywriter readable file" >Download CVS File</button>
-                --><button id="save" class="btn btn--icon" ><i class="rocket"></i> Save file</button>
-            </p>     
+            <div class="card">
+                <blockquote>You can download the labels under a JSON or CSV format</blockquote>
+                <label> Location:
+                    <button id="location">Select target location</button>
+                    <i id="pathDl"></i>
+                </label><br>
+                <label> Filename:
+                <input type=text placeholder="Filename after export" id="filename" value="Labels">
+                </label><br>
+                <label>File Type: 
+                    <div class="radioButtons">
+                        <span class="radio"><input type='radio' name='fileType' value="json" checked>JSON</span>
+                        <span class="radio"><input type='radio' name='fileType' value="csv">CSV</span>
+                    </div>
+                </label><br>
+                <label id="languageContainer" class="hide"> Language:
+                    <input type=text placeholder="Language of the export" id="language" value="EN">
+                </label><br>
+                <p>Download as: 
+                    <button id="save" class="btn btn--icon" ><i class="rocket"></i> Save file</button>
+                </p>     
+            </div>
         </div>
 
         <script>
@@ -491,7 +500,10 @@
             $('document').ready(() => {
                 window.postMessage('initializePages', '')
 
-                $('#import').on('click',  () => window.postMessage('importFile'));
+                $('#import').on('click',  () => {
+                    jsonLabels = {};
+                    window.postMessage('importFile');
+                });
 
                 $('input[name="fileType"]').on('click', (e) => {
                     fileType = e.currentTarget.value;
