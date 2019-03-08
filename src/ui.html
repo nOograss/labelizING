@@ -209,6 +209,11 @@
                 background-color: #fff;
                 margin-bottom: 1em;
             }
+            .hide {
+                display: none;
+            }
+        </style>
+        <style id="table">
             .field {
                 margin-bottom: 1em;
                 display: flex;
@@ -252,9 +257,8 @@
                 height: 80px;
                 font-size: 16px;
             }
-        
-            .hide {
-                display: none;
+            .counter {
+                width: 40px;
             }
         </style>
     </head>
@@ -570,14 +574,14 @@
                 try {
                     jsonModify = jsonLabels;
                     $('.labels-container').empty();
-                    $('.labels-container').append('<div class="label--line"><div class="label--key"><b>KEY</b></div><div class="label--value"><b>VALUE</b></div></div>');
+                    $('.labels-container').append('<div class="label--line"><div class="counter">#</div><div class="label--key"><b>KEY</b></div><div class="label--value"><b>VALUE</b></div></div>');
                     var oldKey;
                     var count = 0;
                     Object.entries(json).forEach(
                         ([key, value]) => {
                             oldKey = key
                             count += 1;
-                            $('.labels-container').append('<div class="label--line"><div>'+count+'</div><div class="label--key"><input id="key_'+count+'" data-old="'+key+'"value="'+key
+                            $('.labels-container').append('<div class="label--line"><div class="counter">'+count+'</div><div class="label--key"><input id="key_'+count+'" data-old="'+key+'"value="'+key
                             +'" disabled><button id="button_'+count+'">delete</button></div><div class="label--value"><textarea id="value_'+count+'" class="value">'+value+'</textarea></div></div>');
                         }
                     );
