@@ -244,6 +244,7 @@ function parseItem(item, count,currentPage, currentSymbol){
         return;
     }
   let json = {};
+  console.log(item.type+"");
   switch(item.type){
       case "Artboard": 
         currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
@@ -257,9 +258,7 @@ function parseItem(item, count,currentPage, currentSymbol){
       case "Text": 
         try {
             let value = item.sketchObject.stringValue()+"";
-            if (typeof item.value !== 'string' || item.value.replace(/\n/g, ' ').trim() === '') {
-                return;
-            }
+           
             value = value.replace(/\n/g, ' ');
 
             helpers.sendMessage('insertNewLabel',currentPage + "__" + item.name + ";"+helpers.sanitize(value));
@@ -274,9 +273,6 @@ function parseItem(item, count,currentPage, currentSymbol){
       case "Override":
       case "OverriddeValue":
         try {
-            if (typeof item.value !== 'string' ) {
-                return;
-            }
             var itemV = item.value + "";
             itemV = itemV.replace(/\n/g, ' ').replace(/;/g, ',').replace(/\"/g,'\\"').trim();
             const regex = new RegExp("[A-Z0-9]{8}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{12}");
