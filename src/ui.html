@@ -4,92 +4,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <style id="main-css">
-            body {
-                padding: 0;
-                margin: 0;
-                font-family: 'Open Sans', sans-serif;
-                background-color: #fbf3e3;
-            }
-            .header{
-                background-color: orange;
-                color: white;
-                text-align: left;
-                padding: 1em;
         
-            }
-            .help {
-                max-width: 800px;
-            }
-            .highlight {
-                background-color: rgba(0, 0, 255, 0.2);
-                padding: 4px;
-                border-radius: 3px;
-            }   
-            .container {
-                padding: 1em;
-            }
-            .nav {
-                display: flex;
-                justify-content: space-between;
-            }
-            .card {
-                padding: 1em;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-                border-radius: 3px;
-                background-color: #fff;
-                margin-bottom: 1em;
-            }
-            .field {
-                margin-bottom: 1em;
-                display: flex;
-                flex-direction: column;
-            }
-            .field input {
-                max-width: 200px;
-            }
-            .labels--container {
-                display: flex;
-                flex-direction: column;
-            }
-            .label--line {
-                display: flex;
-                width: 100%;
-            }
-            .label--line input {
-                width: 100%;
-            }
-            .label--key {
-                border: 1px solid grey;
-                padding: 8px;
-                width: 40%;
-            }
-            .label--value {
-                border: 1px solid grey;
-                border-left: 0;
-                padding: 8px;
-                width: 60%;
-            }
-            input {
-                height: 40px;
-                font-size: 16px;
-                color: #444444;
-                border-radius: 2px;
-                border: 1px solid darkgrey;
-                padding: 4px;
-            }
-            textarea {
-                width: 100%;
-                height: 80px;
-                font-size: 16px;
-            }
-        
-            .hide {
-                display: none;
-            }
-            
-
-        </style>
         <style id="loader">
             .loader {    
                 margin: auto;
@@ -252,6 +167,89 @@
                 content: '\1F58A';
             }
 
+        </style><style id="main-css">
+            body {
+                padding: 0;
+                margin: 0;
+                font-family: 'Open Sans', sans-serif;
+                background-color: #fbf3e3;
+            }
+            .header{
+                background-color: orange;
+                color: white;
+                text-align: left;
+                padding: 1em;
+        
+            }
+            .help {
+                max-width: 800px;
+            }
+            .highlight {
+                background-color: rgba(0, 0, 255, 0.2);
+                padding: 4px;
+                border-radius: 3px;
+            }   
+            .container {
+                padding: 1em;
+            }
+            .nav {
+                display: flex;
+                justify-content: space-between;
+            }
+            .card {
+                padding: 1em;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                border-radius: 3px;
+                background-color: #fff;
+                margin-bottom: 1em;
+            }
+            .field {
+                margin-bottom: 1em;
+                display: flex;
+                flex-direction: column;
+            }
+            .field input {
+                max-width: 200px;
+            }
+            .labels--container {
+                display: flex;
+                flex-direction: column;
+            }
+            .label--line {
+                display: flex;
+                width: 100%;
+            }
+            .label--line input {
+                width: 100%;
+            }
+            .label--key {
+                border: 1px solid grey;
+                padding: 8px;
+                width: 40%;
+            }
+            .label--value {
+                border: 1px solid grey;
+                border-left: 0;
+                padding: 8px;
+                width: 60%;
+            }
+            input {
+                height: 40px;
+                font-size: 16px;
+                color: #444444;
+                border-radius: 2px;
+                border: 1px solid darkgrey;
+                padding: 4px;
+            }
+            textarea {
+                width: 100%;
+                height: 80px;
+                font-size: 16px;
+            }
+        
+            .hide {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -276,7 +274,7 @@
         </div>
         <div id="1" class="card hide">
             <div class="header">
-                <h1>Labesl Overview</h1>
+                <h1>Copy Overview</h1>
             </div>
             <div class="nav">
                     <button id="SketchSelect" data-target="0" class="btn btn--icon stepper"><i class="arrow arrow--left"></i><span>Select another file or another page</span></button>
@@ -298,7 +296,7 @@
 
         <div id="2" class="card hide">
             <div class="header">
-                <h1>Labesl Overview</h1>
+                <h1>Download</h1>
             </div>
             <div class="nav">
                 <button id="labelTable" data-target="1" class="btn btn--icon stepper"><i class="arrow arrow--left"></i>Back to Labels</button>
