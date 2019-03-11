@@ -1,6 +1,6 @@
 {
   "name": "labelizer",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Extract, replace and download labels from sketch file",
   "engines": {
     "sketch": ">=3.0"
