@@ -72,7 +72,7 @@
                 left: 0;
                 right: 0;
                 height: 0px;
-                position: absolute;
+                position: fixed;
                 opacity: 0;
                 display: flex;
                 align-items: center;
@@ -83,7 +83,7 @@
             .notif.active {
                 transition: all .5s ease-in-out;
                 height: 80px;
-                position: absolute;
+                position: fixed;
                 opacity: 1;
             }
         </style>
@@ -173,7 +173,8 @@
                 content: '\1F58A';
             }
 
-        </style><style id="main-css">
+        </style>
+        <style id="main-css">
             body {
                 padding: 0;
                 margin: 0;
@@ -261,6 +262,22 @@
                 width: 40px;
             }
         </style>
+        <style id="scroll">
+            #translate-container {
+                position: relative;
+                background: none;
+                width: 100%;
+                height: 60px;
+            }
+            #translate-container.scrolled {
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 8px 1em;
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            }
+        </style>
     </head>
     <body>
         <div id="notification" class="notif"></div>
@@ -298,7 +315,9 @@
                 <blockquote>you can modify the values of the labels in the table below</blockquote>
                 <h3> Apply labels to the following page:</h3>
                 <div id="pagesRadio" class="radioButtons"></div>
-                <button id="translate" class="btn btn--translate"><i class="pen"></i>Click to translate the page</button>
+                <div id="translate-container">
+                    <button id="translate" class="btn btn--translate"><i class="pen"></i>Click to translate the page</button>
+                </div>
                 <div class="labels-container">
                     <div class="label--line">
                         <div class="label--key"><b>KEY</b></div>
@@ -338,21 +357,23 @@
             </div>
         </div>
 
-        <script>
+        <script id="init">
 
             let jsonLabels = {};
             let jsonModify = {};
             let currentPageIndex = 0;
             var countRadioButton = 0;
             var countNotif= 0;
-            const sharedLabels= ['tab', 'title', 'ContinueButton', 'NextButton', 'BackButton', 'CancelButton', 'DoneButton'];
+            const sharedLabels= ['tab', 'title', 'ContinueButton', 
+                'NextButton', 'BackButton', 'PreviousButton', 'CancelButton', 'DoneButton'];
             const translateLabels = {'🏷 Button label': 'btnLabel'}
             const skipLabels = ['Nav bar'];
             var duplicates = [];
             let currentStep = 0;
             let fileLocation = '';
             let fileType = 'json';
-
+        </script>
+        <script id="sketch">
             /**** SKETCH ACTION BLOCK ****/
             function showLoader(display) {
                 if(display) {
@@ -495,12 +516,8 @@
                 return;
             }
             /**** END - SKETCH ACTION BLOCK ****/
-
-            function showNotification(arg) {
-                $('#notification').removeClass('green red').addClass(arg.split(';')[0]).addClass('active').text(arg.split(';')[1]);
-                setTimeout(()=> $('#notification').removeClass('active'), 5000);
-            }
-
+        </script>
+        <script id="ready">
             $('document').ready(() => {
                 window.postMessage('initializePages', '')
 
@@ -543,7 +560,18 @@
                 $('#location').on('click', () => window.postMessage('location'));
 
                 $('#read-me').on('click', () => window.postMessage('openReadMe'));
+
+                $(window).on("scroll", function(){
+                    amountscrolled()
+                });
             });
+        </script>
+        <script id="func">
+            function showNotification(arg) {
+                $('#notification').removeClass('green red').addClass(arg.split(';')[0]).addClass('active').text(arg.split(';')[1]);
+                setTimeout(()=> $('#notification').removeClass('active'), 5000);
+            }
+
                 
             function interceptClickEvent (type) {
                 const filename = $('#filename').val();
@@ -678,6 +706,20 @@
 
                 return csvFile;
             }
-</script>
+
+            function amountscrolled(){
+                var winheight = $(window).height()
+                var docheight = $(document).height()
+                var scrollTop = $(window).scrollTop()
+                var trackLength = docheight - winheight
+                var pctScrolled = Math.floor(scrollTop/trackLength * 100) // gets percentage scrolled (ie: 80 NaN if tracklength == 0)
+                console.log(winheight, docheight, scrollTop, pctScrolled + '% scrolled')
+                if(scrollTop > 386 && scrollTop < 400) {
+                    $('#translate-container').addClass('scrolled');
+                } else if (scrollTop < 386 && $('#translate-container').hasClass('scrolled')) {
+                    $('#translate-container').removeClass('scrolled');
+                }
+            }
+        </script>
     </body>
 </html>
