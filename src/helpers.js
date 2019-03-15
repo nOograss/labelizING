@@ -8,12 +8,16 @@ var helpers = {
         browserWindow = bw;
     },
     sendMessage: function(type, message){
-        browserWindow.webContents
-        .executeJavaScript(type+'("'+message+'")')
-        .then(res => {
-          // do something with the result
-          //sketch.UI.message("feedback sent:"+message);
-        })
+        try{
+            browserWindow.webContents
+            .executeJavaScript(type+'("'+message+'")')
+            .then(res => {
+            // do something with the result
+            //sketch.UI.message("feedback sent:"+message);
+            })
+        } catch(e) {
+            console.log(e, "error");
+        }
     },
     sanitize : function (value) {
         return typeof value.replace === 'function' ? value.replace(/Ã©/g, 'é').replace(/Ã/g, 'à').replace(/â/g, "'")

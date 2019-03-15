@@ -46,10 +46,10 @@ export default function() {
   browserWindow.loadURL(require('./ui.html'));
   browserWindow.once('ready-to-show', () => {
         browserWindow.show();
-  browserWindow.focus();
+        browserWindow.focus();
     })
   workspace = NSWorkspace.alloc().init();
-helpers.init(browserWindow);
+  helpers.init(browserWindow);
 
   browserWindow.webContents.on('extractLabel', (index) => {
     helpers.sendMessage('notification', 'green;Sketch extraction started...');
@@ -88,8 +88,15 @@ helpers.init(browserWindow);
 
   browserWindow.webContents.on('importFile', () => {
     var json = importFile();
-    if(json === 0) {
-        helpers.sendMessage('notifications', 'red; error while importing the file');
+    if(json+"" === "0") {
+        return;
+    }
+    if(json+"" === "-1") {
+        try{
+            helpers.sendMessage('notification', 'red;Error while importing the file');
+        } catch(e) {
+            console.log(e);
+        }
         return;
     }
     for (var k in json){
@@ -156,6 +163,7 @@ function selectFolder() {
         return 0;
     }
     let path = panel.URLs()[0] + "";
+    path = path.replace(/(%20)/g, ' ');
     helpers.sendMessage('targetLocation', path);
 }
 
@@ -172,7 +180,7 @@ function importFile() {
         return 0;
     }
     if (panel.URLs().count() < 1) {
-        return 0;
+        return -1;
     }
     let path = panel.URLs()[0] + "";
     const isJson = path.indexOf('.json') > -1;
