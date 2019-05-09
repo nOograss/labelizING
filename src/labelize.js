@@ -257,20 +257,19 @@ function parseItem(item, count,currentPage, currentSymbol){
   switch(item.type){
       case "Artboard": 
       case "SymbolMaster":
-        currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
+        currentPage = helpers.format(item.name+"").split('-')[0].replace(/\r?\n|\r/g,' ').replace(/;/g,',').trim();
         parseArray(item.sketchObject.layers(), null, currentPage, currentSymbol);
         break;
       case "SymbolInstance": 
         currentSymbol = item.name + "";
-        currentSymbol = currentSymbol.replace(/\n/g,' ').replace(/;/g,',').trim(); 
+        currentSymbol = currentSymbol.replace(/\r?\n|\r/g,' ').replace(/;/g,',').trim(); 
         parseArray(item.overrides, null, currentPage, currentSymbol);
         break;
       case "Text": 
         try {
             let value = item.sketchObject.stringValue()+"";
            
-            value = value.replace(/\n/g, ' ');
-
+            value = value.replace(/\r?\n|\r/g, ' ');
             helpers.sendMessage('insertNewLabel',currentPage + "__" + item.name + ";"+helpers.sanitize(value));
         } catch(e) {
             helpers.sendMessage('log', 'error while retrieving text for' + item.name);
@@ -284,7 +283,7 @@ function parseItem(item, count,currentPage, currentSymbol){
       case "OverriddeValue":
         try {
             var itemV = item.value + "";
-            itemV = itemV.replace(/\n/g, ' ').replace(/;/g, ',').replace(/\"/g,'\\"').trim();
+            itemV = itemV.replace(/\r?\n|\r/g, ' ').replace(/;/g, ',').replace(/\"/g,'\\"').trim();
             const regex = new RegExp("[A-Z0-9]{8}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{4}[-][A-Z0-9]{12}");
             if(!regex.test(itemV) && itemV !== '') {
                 helpers.sendMessage('insertNewLabel',currentPage+"__"+helpers.getNameForItem(currentSymbol+"")+"_"+item.affectedLayer.name + ";"+itemV);
@@ -305,7 +304,7 @@ function translateItem(item, jsonT, currentPage, currentSymbol){
     switch(item.type){
         case "Artboard": 
         case "SymbolMaster":
-            currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
+            currentPage = helpers.format(item.name+"").split('-')[0].replace(/\r?\n|\r/g,' ').replace(/;/g,',').trim();
             parseArray(item.sketchObject.layers(), jsonT, currentPage, currentSymbol);
             break;
         case "SymbolInstance": 
