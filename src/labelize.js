@@ -256,6 +256,7 @@ function parseItem(item, count,currentPage, currentSymbol){
   console.log(item.type+"");
   switch(item.type){
       case "Artboard": 
+      case "SymbolMaster":
         currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
         parseArray(item.sketchObject.layers(), null, currentPage, currentSymbol);
         break;
@@ -303,6 +304,7 @@ function translateItem(item, jsonT, currentPage, currentSymbol){
     }
     switch(item.type){
         case "Artboard": 
+        case "SymbolMaster":
             currentPage = helpers.format(item.name+"").split('-')[0].replace(/\n/g,' ').replace(/;/g,',').trim();
             parseArray(item.sketchObject.layers(), jsonT, currentPage, currentSymbol);
             break;
