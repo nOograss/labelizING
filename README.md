@@ -47,3 +47,20 @@ Currenlty there is a short list of common names, these will be shown only once i
 ## Up coming features:
 1. Possiblity to add a custom list of shared name.
 2. Csv Multi languages handling
+
+
+## Example
+_Artboard (name: Login)
+|_Symbol (name:ContinueButton)
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: ButtonText) Continue
+|
+|_Text (name: introduction) Welcome !
+|_Symbol (name: Cancel)
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: text) Cancel
+
+After export:
+| Key | Value |
+| --------- | ----------- |
+| Login__ContinueButton | Continue |
+| Login__introduction | Welcome ! |
+| Login_Cancel_text | Cancel |
