@@ -24,7 +24,7 @@ It will retrieve the text of the following elements:
 
 A name precedede with [x] will be skippe during the extraction. 
 
-###Shared Name
+### Shared Name
 Currenlty there is a short list of common names, these will be shown only once in the table.
 - tab
 - title
