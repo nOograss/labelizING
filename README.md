@@ -22,7 +22,18 @@ It will retrieve the text of the following elements:
 - Text
 - MasterSymbol
 
-A name precedede with [x] will be skippe during the extraction.
+A name precedede with [x] will be skippe during the extraction. 
+
+###Shared Name
+Currenlty there is a short list of common names, these will be shown only once in the table.
+- tab
+- title
+- ContinueButton
+- NextButton
+- BackButton
+- PreviousButton
+- CancelButton 
+- DoneButton
 
 ## Usage
 1. First download the zip file and extract it in your plugins folder.
@@ -33,3 +44,6 @@ A name precedede with [x] will be skippe during the extraction.
 6. From this you can modify the table and translate the page by clicking 'Translate the page'
 7. If you want to save your work for storing or share purpose, click on 'Go To download' and fill in the form to retrieve your export.
 
+## Up coming features:
+1. Possiblity to add a custom list of shared name.
+2. Csv Multi languages handling
