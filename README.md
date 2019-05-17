@@ -50,13 +50,13 @@ Currenlty there is a short list of common names, these will be shown only once i
 
 
 ## Example
-_Artboard (name: Login)
-|_Symbol (name:ContinueButton)
-|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: ButtonText) Continue
-|
-|_Text (name: introduction) Welcome !
-|_Symbol (name: Cancel)
-|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: text) Cancel
+_Artboard (name: Login)<br/>
+|_Symbol (name:ContinueButton)<br/>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: ButtonText) Continue<br/>
+|<br/>
+|_Text (name: introduction) Welcome !<br/>
+|_Symbol (name: Cancel)<br/>
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_Text (name: text) Cancel<br/>
 
 After export:
 | Key | Value |
