@@ -11,8 +11,9 @@ const options = {
     javascript: true,
     devTools: true
   },    
+  closable: true,
   width: 1024, 
-  height: 860 ,
+  height: 860,
   show: false
 }
 const optionsReadMe = {
@@ -21,6 +22,7 @@ const optionsReadMe = {
       javascript: true,
       devTools: true
     },    
+    frame: true,
     width: 800, 
     height: 800 ,
     show: false
@@ -46,11 +48,9 @@ export default function() {
   browserWindow.loadURL(require('./ui.html'));
   browserWindow.once('ready-to-show', () => {
         browserWindow.show();
-        browserWindow.focus();
     })
   workspace = NSWorkspace.alloc().init();
   helpers.init(browserWindow);
-
   browserWindow.webContents.on('extractLabel', (index) => {
     helpers.sendMessage('notification', 'green;Sketch extraction started...');
     start(index);
